@@ -1,6 +1,9 @@
-set -x TECH_HOME $PROJECT_HOME/by-technology
-set -x tech_roots (find $TECH_HOME -mindepth 1 -maxdepth 1 -type d -print0 | xargs -0 basename -a)
+
+if not set -q TECH_HOME
+    set -U TECH_HOME $PROJECT_HOME/by-technology
+end
+set -u tech_roots (find $TECH_HOME -mindepth 1 -maxdepth 1 -type d -print0 | xargs -0 basename -a)
 
 for tr in $tech_roots
-    assoc.set tech_paths[$tr]   "$TECH_HOME/$tr"    
+    eval ("set -x fd_tech_paths"$tr" "$TECH_HOME"/"$tr)    
 end
